@@ -134,14 +134,20 @@ namespace Goblin.Identity.Service
             // Update Password
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
             {
-                userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
-                changedProperties.Add(nameof(userEntity.PasswordLastUpdatedTime));
+                var newPasswordHashWithOldSalt = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
 
-                userEntity.PasswordHash = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
-                changedProperties.Add(nameof(userEntity.PasswordHash));
+                // If user have changed password, then update password and related information
+                if (newPasswordHashWithOldSalt != userEntity.PasswordHash)
+                {
+                    userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
+                    changedProperties.Add(nameof(userEntity.PasswordLastUpdatedTime));
+                    
+                    userEntity.PasswordHash = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
+                    changedProperties.Add(nameof(userEntity.PasswordHash));
 
-                userEntity.RevokeTokenGeneratedBeforeTime = userEntity.PasswordLastUpdatedTime;
-                changedProperties.Add(nameof(userEntity.RevokeTokenGeneratedBeforeTime));
+                    userEntity.RevokeTokenGeneratedBeforeTime = userEntity.PasswordLastUpdatedTime;
+                    changedProperties.Add(nameof(userEntity.RevokeTokenGeneratedBeforeTime));
+                }
             }
 
             // Update Email
@@ -262,7 +268,7 @@ namespace Goblin.Identity.Service
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
-            if (accessTokenDataModel.ExpireTime < userEntity.RevokeTokenGeneratedBeforeTime)
+            if (accessTokenDataModel.CreatedTime < userEntity.RevokeTokenGeneratedBeforeTime)
             {
                 throw new GoblinException(nameof(GoblinIdentityErrorCode.AccessTokenIsRevoked), GoblinIdentityErrorCode.AccessTokenIsRevoked);
             }
