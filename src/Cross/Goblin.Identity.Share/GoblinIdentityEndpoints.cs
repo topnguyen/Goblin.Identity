@@ -15,7 +15,12 @@ namespace Goblin.Identity.Share
         /// <summary>
         ///     HTTP Method: PUT
         /// </summary>
-        public const string UpdateUserProfile = "/users/{id}";
+        public const string UpdateProfile = "/users/{id}";
+        
+        /// <summary>
+        ///     HTTP Method: PUT
+        /// </summary>
+        public const string UpdateIdentity = "/users/{id}/identity";
         
         /// <summary>
         ///     HTTP Method: DELETE

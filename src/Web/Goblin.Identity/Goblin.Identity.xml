@@ -12,9 +12,35 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.Get(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.GetProfile(System.Int64,System.Threading.CancellationToken)">
             <summary>
                 Get Profile
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.UpdateProfile(System.Int64,Goblin.Identity.Share.Models.GoblinIdentityUpdateProfileModel,System.Threading.CancellationToken)">
+            <summary>
+                Update Profile
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.UpdateIdentity(System.Int64,Goblin.Identity.Share.Models.GoblinIdentityUpdateIdentityModel,System.Threading.CancellationToken)">
+            <summary>
+                Update Identity
+            </summary>
+            <param name="id"></param>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.Get(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+                Get Identity
             </summary>
             <param name="id"></param>
             <param name="cancellationToken"></param>

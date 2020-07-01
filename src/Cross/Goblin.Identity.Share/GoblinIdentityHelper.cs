@@ -14,7 +14,7 @@ namespace Goblin.Identity.Share
         
         public static string AuthorizationKey { get; set; } = string.Empty;
 
-        public static async Task<GoblinIdentityRegisterResponseModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default)
+        public static async Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace Goblin.Identity.Share
                 var registerResponseModel = await endpoint
                     .AppendPathSegment(GoblinIdentityEndpoints.RegisterUser)
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
-                    .ReceiveJson<GoblinIdentityRegisterResponseModel>()
+                    .ReceiveJson<GoblinIdentityEmailConfirmationModel>()
                     .ConfigureAwait(true);
 
                 return registerResponseModel;

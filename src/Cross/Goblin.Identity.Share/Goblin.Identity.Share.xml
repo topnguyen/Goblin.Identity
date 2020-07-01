@@ -14,7 +14,12 @@
                 HTTP Method: GET
             </summary>
         </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateUserProfile">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateProfile">
+            <summary>
+                HTTP Method: PUT
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateIdentity">
             <summary>
                 HTTP Method: PUT
             </summary>

@@ -6,9 +6,13 @@ namespace Goblin.Identity.Contract.Service
 {
     public interface IUserService
     {
-        Task<GoblinIdentityRegisterResponseModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default);
+        Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default);
         
-        Task<GoblinIdentityUserModel> GetAsync(long id, CancellationToken cancellationToken = default);
+        Task<GoblinIdentityUserModel> GetProfileAsync(long id, CancellationToken cancellationToken = default);
+        
+        Task UpdateProfileAsync(long id, GoblinIdentityUpdateProfileModel model, CancellationToken cancellationToken = default);
+        
+        Task<GoblinIdentityEmailConfirmationModel> UpdateIdentityAsync(long id, GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default);
         
         Task DeleteAsync(long id, CancellationToken cancellationToken = default);
     }

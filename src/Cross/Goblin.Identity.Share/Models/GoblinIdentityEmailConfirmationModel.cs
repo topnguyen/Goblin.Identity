@@ -2,7 +2,7 @@ using System;
 
 namespace Goblin.Identity.Share.Models
 {
-    public class GoblinIdentityRegisterResponseModel
+    public class GoblinIdentityEmailConfirmationModel
     {
         public long Id { get; set; }
         

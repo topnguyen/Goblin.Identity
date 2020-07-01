@@ -11,6 +11,8 @@ namespace Goblin.Identity.Mapper
         {
             CreateMap<GoblinIdentityRegisterModel, UserEntity>().IgnoreAllNonExisting();
             
+            CreateMap<GoblinIdentityUpdateProfileModel, UserEntity>().IgnoreAllNonExisting();
+            
             CreateMap<UserEntity, GoblinIdentityUserModel>().IgnoreAllNonExisting();
         }
     }
