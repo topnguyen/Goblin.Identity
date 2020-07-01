@@ -33,7 +33,7 @@ namespace Goblin.Identity.Controllers
         {
             var registerResponseModel = await _userService.RegisterAsync(model, cancellationToken);
             
-            return Created(Url.Action("Get", new {registerResponseModel.Id}), registerResponseModel);
+            return Created(Url.Action("GetProfile", new {registerResponseModel.Id}), registerResponseModel);
         }
         
         /// <summary>
@@ -87,23 +87,6 @@ namespace Goblin.Identity.Controllers
             var emailConfirmationModel = await _userService.UpdateIdentityAsync(id, model, cancellationToken);
 
             return Ok(emailConfirmationModel);
-        }
-        
-        /// <summary>
-        ///     Get Identity
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [ApiDocGroup("User")]
-        [HttpGet]
-        [Route(GoblinIdentityEndpoints.GetUser)]
-        [SwaggerResponse(StatusCodes.Status200OK, "User Profile Information", typeof(GoblinIdentityUserModel))]
-        public async Task<IActionResult> Get([FromRoute] long id, CancellationToken cancellationToken = default)
-        {
-            var sampleModel = await _userService.GetProfileAsync(id, cancellationToken);
-
-            return Ok(sampleModel);
         }
         
         /// <summary>
