@@ -44,7 +44,7 @@ namespace Goblin.Identity.Controllers
         /// <returns></returns>
         [ApiDocGroup("User")]
         [HttpGet]
-        [Route(GoblinIdentityEndpoints.GetUser)]
+        [Route(GoblinIdentityEndpoints.GetProfile)]
         [SwaggerResponse(StatusCodes.Status200OK, "User Profile Information", typeof(GoblinIdentityUserModel))]
         public async Task<IActionResult> GetProfile([FromRoute] long id, CancellationToken cancellationToken = default)
         {
@@ -104,6 +104,23 @@ namespace Goblin.Identity.Controllers
             await _userService.DeleteAsync(id, cancellationToken);
             
             return NoContent();
+        }
+        
+        /// <summary>
+        ///     Generate Access Token
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpPost]
+        [Route(GoblinIdentityEndpoints.GenerateAccessToken)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Access Token", typeof(string))]
+        public async Task<IActionResult> GenerateAccessToken([FromBody] GoblinIdentityGenerateAccessTokenModel model, CancellationToken cancellationToken = default)
+        {
+            var accessToken = await _userService.GenerateAccessTokenAsync(model, cancellationToken);
+
+            return Ok(accessToken);
         }
     }
 }

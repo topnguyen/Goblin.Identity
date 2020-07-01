@@ -1,5 +1,4 @@
 using System;
-using Elect.Core.StringUtils;
 
 namespace Goblin.Identity.Contract.Repository.Models
 {
@@ -35,7 +34,7 @@ namespace Goblin.Identity.Contract.Repository.Models
 
         public string PasswordHash { get; set; }
 
-        public DateTimeOffset? PasswordLastUpdatedTime { get; set; }
+        public DateTimeOffset PasswordLastUpdatedTime { get; set; }
         
         // Set Password
 

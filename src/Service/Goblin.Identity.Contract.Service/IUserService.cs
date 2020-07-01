@@ -15,5 +15,7 @@ namespace Goblin.Identity.Contract.Service
         Task<GoblinIdentityEmailConfirmationModel> UpdateIdentityAsync(long id, GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default);
         
         Task DeleteAsync(long id, CancellationToken cancellationToken = default);
+
+        Task<string> GenerateAccessTokenAsync(GoblinIdentityGenerateAccessTokenModel model, CancellationToken cancellationToken = default);
     }
 }

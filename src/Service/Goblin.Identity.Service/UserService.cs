@@ -12,6 +12,7 @@ using Goblin.Core.DateTimeUtils;
 using Goblin.Core.Errors;
 using Goblin.Identity.Contract.Repository.Models;
 using Goblin.Identity.Core;
+using Goblin.Identity.Share;
 using Goblin.Identity.Share.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +41,7 @@ namespace Goblin.Identity.Service
             userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
 
             userEntity.PasswordHash =
-                PasswordHelper.HashPassword(model.Password, userEntity.PasswordLastUpdatedTime.Value);
+                PasswordHelper.HashPassword(model.Password, userEntity.PasswordLastUpdatedTime);
 
             userEntity.EmailConfirmToken = StringHelper.Generate(6, false, false);
 
@@ -82,7 +83,7 @@ namespace Goblin.Identity.Service
 
             if (userEntity == null)
             {
-                throw new GoblinException(nameof(GoblinErrorCode.NotFound), "User does not exist");
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
 
             model.MapTo(userEntity);
@@ -112,7 +113,7 @@ namespace Goblin.Identity.Service
 
             if (userEntity == null)
             {
-                throw new GoblinException(nameof(GoblinErrorCode.NotFound), "User does not exist");
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
 
             var emailConfirmationModel = new GoblinIdentityEmailConfirmationModel();
@@ -125,7 +126,7 @@ namespace Goblin.Identity.Service
                 userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
                 changedProperties.Add(nameof(userEntity.PasswordLastUpdatedTime));
 
-                userEntity.PasswordHash = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime.Value);
+                userEntity.PasswordHash = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
                 changedProperties.Add(nameof(userEntity.PasswordHash));
             }
 
@@ -185,6 +186,46 @@ namespace Goblin.Identity.Service
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
 
+        public async Task<string> GenerateAccessTokenAsync(GoblinIdentityGenerateAccessTokenModel model, CancellationToken cancellationToken = default)
+        {
+            var userEntity = await _userRepo.Get(x => x.UserName == model.UserName)
+                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(true);
+
+            // Check User is exist
+            
+            if (userEntity == null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
+            }
+
+            // Compare password hash from request and database
+
+            var passwordHash = PasswordHelper.HashPassword(model.Password, userEntity.PasswordLastUpdatedTime);
+
+            if (passwordHash != userEntity.PasswordHash)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.WrongPassword), GoblinIdentityErrorCode.WrongPassword);
+            }
+            
+            // Generate Access Token
+
+            var now = GoblinDateTimeHelper.SystemTimeNow;
+            
+            var accessTokenData = new TokenDataModel<AccessTokenDataModel>
+            {
+                ExpireTime = now.Add(SystemSetting.Current.AccessTokenLifetime),
+                CreatedTime = now,
+                Data =  new AccessTokenDataModel
+                {
+                    UserId = userEntity.Id
+                }
+            };
+
+            var accessToken = JwtHelper.Generate(accessTokenData);
+
+            return accessToken;
+        }
+
         private void CheckUniqueUserName(string userName, long? excludeId = null)
         {
             if (string.IsNullOrWhiteSpace(userName))
@@ -203,7 +244,7 @@ namespace Goblin.Identity.Service
 
             if (!isUnique)
             {
-                throw new GoblinException(nameof(GoblinErrorCode.BadRequest), "UserName already exists");
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNameNotUnique), GoblinIdentityErrorCode.UserNameNotUnique);
             }
         }
 
@@ -225,7 +266,7 @@ namespace Goblin.Identity.Service
 
             if (!isUnique)
             {
-                throw new GoblinException(nameof(GoblinErrorCode.BadRequest), "Email already exists");
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.EmailNotUnique), GoblinIdentityErrorCode.EmailNotUnique);
             }
         }
     }

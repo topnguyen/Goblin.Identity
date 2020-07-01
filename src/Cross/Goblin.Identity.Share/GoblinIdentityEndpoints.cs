@@ -10,7 +10,7 @@ namespace Goblin.Identity.Share
         /// <summary>
         ///     HTTP Method: GET
         /// </summary>
-        public const string GetUser = "/users/{id}";
+        public const string GetProfile = "/users/{id}";
         
         /// <summary>
         ///     HTTP Method: PUT
@@ -26,5 +26,15 @@ namespace Goblin.Identity.Share
         ///     HTTP Method: DELETE
         /// </summary>
         public const string DeleteUser = "/users/{id}";
+        
+        /// <summary>
+        ///     HTTP Method: POST
+        /// </summary>
+        public const string GenerateAccessToken = "/access-tokens";
+        
+        /// <summary>
+        ///     HTTP Method: GET
+        /// </summary>
+        public const string GetProfileByAccessToken = "/access-tokens";
     }
 }
