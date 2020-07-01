@@ -11,5 +11,11 @@ namespace Goblin.Identity.Share
         public const string EmailNotUnique = "Email already exists";
         
         public const string UserNameNotUnique = "UserName already exists";
+        
+        public const string AccessTokenIsInvalid = "Access Token is invalid";
+        
+        public const string AccessTokenIsExpired = "Access Token is expired";
+        
+        public const string AccessTokenIsRevoked = "Access Token is revoked";
     }
 }

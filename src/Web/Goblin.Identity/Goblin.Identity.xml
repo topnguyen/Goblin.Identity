@@ -54,5 +54,13 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.GetProfileByAccessToken(System.String,System.Threading.CancellationToken)">
+            <summary>
+                Get Profile by Access Token
+            </summary>
+            <param name="accessToken"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

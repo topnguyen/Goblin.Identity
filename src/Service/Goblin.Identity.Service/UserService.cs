@@ -32,6 +32,10 @@ namespace Goblin.Identity.Service
         public async Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model,
             CancellationToken cancellationToken = default)
         {
+            model.Email = model.Email?.Trim().ToLowerInvariant();
+            
+            model.UserName = model.UserName?.Trim().ToLowerInvariant();
+            
             CheckUniqueEmail(model.Email);
 
             CheckUniqueUserName(model.UserName);
@@ -107,6 +111,10 @@ namespace Goblin.Identity.Service
             GoblinIdentityUpdateIdentityModel model,
             CancellationToken cancellationToken = default)
         {
+            model.NewEmail = model.NewEmail?.Trim().ToLowerInvariant();
+            
+            model.NewUserName = model.NewUserName?.Trim().ToLowerInvariant();
+            
             var userEntity = await _userRepo.Get(x => x.Id == id)
                 .FirstOrDefaultAsync(cancellationToken)
                 .ConfigureAwait(true);
@@ -116,7 +124,10 @@ namespace Goblin.Identity.Service
                 throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
 
-            var emailConfirmationModel = new GoblinIdentityEmailConfirmationModel();
+            var emailConfirmationModel = new GoblinIdentityEmailConfirmationModel
+            {
+                Id = userEntity.Id
+            };
             
             var changedProperties = new List<string>();
 
@@ -128,10 +139,13 @@ namespace Goblin.Identity.Service
 
                 userEntity.PasswordHash = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
                 changedProperties.Add(nameof(userEntity.PasswordHash));
+
+                userEntity.RevokeTokenGeneratedBeforeTime = userEntity.PasswordLastUpdatedTime;
+                changedProperties.Add(nameof(userEntity.RevokeTokenGeneratedBeforeTime));
             }
 
             // Update Email
-            if (!string.IsNullOrWhiteSpace(model.NewEmail))
+            if (!string.IsNullOrWhiteSpace(model.NewEmail) && model.NewEmail != userEntity.Email)
             {
                 userEntity.EmailConfirmToken = StringHelper.Generate(6, false, false);
                 changedProperties.Add(nameof(userEntity.EmailConfirmToken));
@@ -141,8 +155,6 @@ namespace Goblin.Identity.Service
 
                 
                 // Email Confirmation Token
-
-                emailConfirmationModel.Id = userEntity.Id;
                 
                 emailConfirmationModel.EmailConfirmToken = userEntity.EmailConfirmToken;
                 
@@ -224,6 +236,47 @@ namespace Goblin.Identity.Service
             var accessToken = JwtHelper.Generate(accessTokenData);
 
             return accessToken;
+        }
+
+        public async Task<GoblinIdentityUserModel> GetProfileByAccessTokenAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var accessTokenDataModel = JwtHelper.Get<TokenDataModel<AccessTokenDataModel>>(accessToken);
+
+            // Check Valid
+            
+            if (accessTokenDataModel == null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.AccessTokenIsInvalid), GoblinIdentityErrorCode.AccessTokenIsInvalid);
+            }
+            
+            // Check Expire
+            
+            if (accessTokenDataModel.ExpireTime < GoblinDateTimeHelper.SystemTimeNow)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.AccessTokenIsExpired), GoblinIdentityErrorCode.AccessTokenIsExpired);
+            }
+            
+            var userEntity =
+                await _userRepo
+                    .Get(x => x.Id == accessTokenDataModel.Data.UserId)
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
+
+            if (accessTokenDataModel.ExpireTime < userEntity.RevokeTokenGeneratedBeforeTime)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.AccessTokenIsRevoked), GoblinIdentityErrorCode.AccessTokenIsRevoked);
+            }
+
+            var userModel = userEntity.MapTo<GoblinIdentityUserModel>();
+            
+            // If user not found, then ignore
+            
+            if (userModel == null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
+            }
+
+            return userModel;
         }
 
         private void CheckUniqueUserName(string userName, long? excludeId = null)

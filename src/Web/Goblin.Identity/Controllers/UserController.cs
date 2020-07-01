@@ -122,5 +122,22 @@ namespace Goblin.Identity.Controllers
 
             return Ok(accessToken);
         }
+        
+        /// <summary>
+        ///     Get Profile by Access Token
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpGet]
+        [Route(GoblinIdentityEndpoints.GetProfileByAccessToken)]
+        [SwaggerResponse(StatusCodes.Status200OK, "User Profile Information", typeof(GoblinIdentityUserModel))]
+        public async Task<IActionResult> GetProfileByAccessToken([FromQuery] string accessToken, CancellationToken cancellationToken = default)
+        {
+            var userModel = await _userService.GetProfileByAccessTokenAsync(accessToken, cancellationToken);
+
+            return Ok(userModel);
+        }
     }
 }

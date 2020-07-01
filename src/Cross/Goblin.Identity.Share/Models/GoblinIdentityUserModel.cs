@@ -4,6 +4,8 @@ namespace Goblin.Identity.Share.Models
 {
     public class GoblinIdentityUserModel
     {
+        public long Id { get; set; }
+        
         // Basic Profile
 
         public string AvatarUrl { get; set; }
