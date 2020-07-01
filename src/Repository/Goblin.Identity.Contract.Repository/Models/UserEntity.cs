@@ -1,9 +1,12 @@
 using System;
+using Goblin.Identity.Share.Models;
 
 namespace Goblin.Identity.Contract.Repository.Models
 {
     public class UserEntity : GoblinEntity
     {
+        public GoblinIdentityUserType Type { get; set; } = GoblinIdentityUserType.Member;
+
         // Basic Profile
 
         public string AvatarUrl { get; set; }
