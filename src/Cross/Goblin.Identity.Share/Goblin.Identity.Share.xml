@@ -9,7 +9,7 @@
                 HTTP Method: POST
             </summary>
         </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetUser">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetProfile">
             <summary>
                 HTTP Method: GET
             </summary>
@@ -27,6 +27,16 @@
         <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.DeleteUser">
             <summary>
                 HTTP Method: DELETE
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GenerateAccessToken">
+            <summary>
+                HTTP Method: POST
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetProfileByAccessToken">
+            <summary>
+                HTTP Method: GET
             </summary>
         </member>
         <member name="P:Goblin.Identity.Share.Models.GoblinIdentityUserModel.RevokeTokenGeneratedBeforeTime">

@@ -46,5 +46,13 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.GenerateAccessToken(Goblin.Identity.Share.Models.GoblinIdentityGenerateAccessTokenModel,System.Threading.CancellationToken)">
+            <summary>
+                Generate Access Token
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
