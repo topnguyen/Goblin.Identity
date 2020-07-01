@@ -4,19 +4,29 @@
         <name>Goblin.Identity.Share</name>
     </assembly>
     <members>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.CreateSample">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.RegisterUser">
             <summary>
                 HTTP Method: POST
             </summary>
         </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetSample">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetUser">
             <summary>
                 HTTP Method: GET
             </summary>
         </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.DeleteSample">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateUserProfile">
+            <summary>
+                HTTP Method: PUT
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.DeleteUser">
             <summary>
                 HTTP Method: DELETE
+            </summary>
+        </member>
+        <member name="P:Goblin.Identity.Share.Models.GoblinIdentityUserModel.RevokeTokenGeneratedBeforeTime">
+            <summary>
+                Remove token generated before specific time
             </summary>
         </member>
     </members>

@@ -5,6 +5,6 @@ namespace Goblin.Identity.Repository
 {
     public sealed partial class GoblinDbContext
     {
-        public DbSet<SampleEntity> Samples { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 docker build --tag goblin-identity:1.0 .
 
-docker run --network bridge --publish 8001:80 --env-file DockerEnv --detach --name goblin-identity goblin-identity:1.0
+docker run --network bridge --publish 8003:80 --env-file DockerEnv --detach --name goblin-identity goblin-identity:1.0
 
 ---
 

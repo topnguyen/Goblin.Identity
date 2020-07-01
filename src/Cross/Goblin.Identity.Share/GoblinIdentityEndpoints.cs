@@ -5,16 +5,21 @@ namespace Goblin.Identity.Share
         /// <summary>
         ///     HTTP Method: POST
         /// </summary>
-        public const string CreateSample = "/samples";
+        public const string RegisterUser = "/users";
         
         /// <summary>
         ///     HTTP Method: GET
         /// </summary>
-        public const string GetSample = "/samples/{id}";
+        public const string GetUser = "/users/{id}";
+        
+        /// <summary>
+        ///     HTTP Method: PUT
+        /// </summary>
+        public const string UpdateUserProfile = "/users/{id}";
         
         /// <summary>
         ///     HTTP Method: DELETE
         /// </summary>
-        public const string DeleteSample = "/samples/{id}";
+        public const string DeleteUser = "/users/{id}";
     }
 }

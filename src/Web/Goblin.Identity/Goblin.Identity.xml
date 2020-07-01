@@ -4,28 +4,25 @@
         <name>Goblin.Identity</name>
     </assembly>
     <members>
-        <member name="M:Goblin.Identity.Controllers.SampleController.Upload(Goblin.Identity.Share.Models.GoblinIdentityCreateSampleModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.Register(Goblin.Identity.Share.Models.GoblinIdentityRegisterModel,System.Threading.CancellationToken)">
             <summary>
-                Create Sample
+                Register User
             </summary>
-            <remarks>
-                <b>SampleData</b>: Cannot be null or empty <br />
-            </remarks>
             <param name="model"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.SampleController.Get(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.Get(System.Int64,System.Threading.CancellationToken)">
             <summary>
-                Get Sample
+                Get Profile
             </summary>
             <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.SampleController.Delete(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.Delete(System.Int64,System.Threading.CancellationToken)">
             <summary>
-                Delete Sample
+                Delete User
             </summary>
             <param name="id"></param>
             <param name="cancellationToken"></param>

@@ -14,5 +14,7 @@
         <ProjectReference Include="..\..\Repository\Goblin.Identity.Contract.Repository\Goblin.Identity.Contract.Repository.csproj" />
         <ProjectReference Include="..\Goblin.Identity.Contract.Service\Goblin.Identity.Contract.Service.csproj" />
         <ProjectReference Include="..\..\Cross\Goblin.Identity.Core\Goblin.Identity.Core.csproj" />
+
+        <PackageReference Include="LitJWT" Version="1.0.0" />
     </ItemGroup>
 </Project>
