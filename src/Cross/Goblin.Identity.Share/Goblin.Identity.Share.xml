@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Goblin.Identity.Share</name>
+    </assembly>
+    <members>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.CreateSample">
+            <summary>
+                HTTP Method: POST
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetSample">
+            <summary>
+                HTTP Method: GET
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.DeleteSample">
+            <summary>
+                HTTP Method: DELETE
+            </summary>
+        </member>
+    </members>
+</doc>
