@@ -1,12 +1,10 @@
 using System;
-using Goblin.Identity.Share.Models;
+using System.Collections.Generic;
 
 namespace Goblin.Identity.Contract.Repository.Models
 {
     public class UserEntity : GoblinEntity
     {
-        public GoblinIdentityUserType Type { get; set; } = GoblinIdentityUserType.Member;
-
         // Basic Profile
 
         public string AvatarUrl { get; set; }
@@ -59,5 +57,9 @@ namespace Goblin.Identity.Contract.Repository.Models
         ///     Remove token generated before specific time
         /// </summary>
         public DateTimeOffset RevokeTokenGeneratedBeforeTime { get; set; }
+        
+        // Roles
+        
+        public virtual ICollection<UserRoleEntity> UserRoles { get; set; }
     }
 }

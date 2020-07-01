@@ -4,8 +4,6 @@ namespace Goblin.Identity.Share.Models
 {
     public class GoblinIdentityRegisterModel : GoblinApiRequestModel
     {
-        public GoblinIdentityUserType Type { get; set; } = GoblinIdentityUserType.Member;
-        
         // Basic Profile
 
         public string AvatarUrl { get; set; }
