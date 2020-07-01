@@ -64,7 +64,7 @@ namespace Goblin.Identity.Controllers
         [HttpPut]
         [Route(GoblinIdentityEndpoints.UpdateProfile)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "User Profile Updated")]
-        public async Task<IActionResult> UpdateProfile([FromRoute] long id, GoblinIdentityUpdateProfileModel model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateProfile([FromRoute] long id, [FromBody] GoblinIdentityUpdateProfileModel model, CancellationToken cancellationToken = default)
         {
             await _userService.UpdateProfileAsync(id, model, cancellationToken);
 
@@ -82,7 +82,7 @@ namespace Goblin.Identity.Controllers
         [HttpPut]
         [Route(GoblinIdentityEndpoints.UpdateIdentity)]
         [SwaggerResponse(StatusCodes.Status200OK, "User Identity Updated")]
-        public async Task<IActionResult> UpdateIdentity([FromRoute] long id, GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateIdentity([FromRoute] long id, [FromBody] GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default)
         {
             var emailConfirmationModel = await _userService.UpdateIdentityAsync(id, model, cancellationToken);
 

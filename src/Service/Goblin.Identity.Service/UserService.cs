@@ -175,6 +175,11 @@ namespace Goblin.Identity.Service
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
+            if (userEntity == null)
+            {
+                return;
+            }
+            
             _userRepo.Delete(userEntity);
 
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
