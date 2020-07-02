@@ -15,6 +15,11 @@ namespace Goblin.Identity.Share
         /// <summary>
         ///     HTTP Method: PUT
         /// </summary>
+        public const string ConfirmEmail = "/users/confirm-email";
+        
+        /// <summary>
+        ///     HTTP Method: PUT
+        /// </summary>
         public const string UpdateProfile = "/users/{id}";
         
         /// <summary>

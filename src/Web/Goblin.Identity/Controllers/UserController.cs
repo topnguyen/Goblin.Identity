@@ -37,6 +37,23 @@ namespace Goblin.Identity.Controllers
         }
         
         /// <summary>
+        ///     Confirm Email
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("User")]
+        [HttpGet]
+        [Route(GoblinIdentityEndpoints.ConfirmEmail)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Email Confirmed")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
+        {
+            await _userService.ConfirmEmail(model, cancellationToken);
+
+            return NoContent();
+        }
+        
+        /// <summary>
         ///     Get Profile
         /// </summary>
         /// <param name="id"></param>

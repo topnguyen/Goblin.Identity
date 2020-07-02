@@ -259,11 +259,46 @@ namespace Goblin.Identity.Service
 
             if (userEntity == null)
             {
-                return;
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
             
             _userRepo.Delete(userEntity);
 
+            await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+        }
+
+        public async Task ConfirmEmail(GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
+        {
+            var userEntity = await _userRepo.Get(x => x.Id == model.Id)
+                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(true);
+
+            if (userEntity == null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
+            }
+
+            if (userEntity.EmailConfirmToken == model.EmailConfirmToken)
+            {
+                if (userEntity.EmailConfirmTokenExpireTime < GoblinDateTimeHelper.SystemTimeNow)
+                {
+                    throw new GoblinException(nameof(GoblinIdentityErrorCode.ConfirmEmailTokenExpired), GoblinIdentityErrorCode.ConfirmEmailTokenExpired);
+                }
+            }
+            else
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.ConfirmEmailTokenInCorrect), GoblinIdentityErrorCode.ConfirmEmailTokenInCorrect);
+            }
+
+            userEntity.EmailConfirmToken = null;
+            userEntity.EmailConfirmTokenExpireTime = null;
+            userEntity.EmailConfirmedTime = GoblinDateTimeHelper.SystemTimeNow;
+            
+            _userRepo.Update(userEntity,
+                x=> x.EmailConfirmToken,
+                x=> x.EmailConfirmTokenExpireTime,
+                x=> x.EmailConfirmedTime
+                );
+            
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
 

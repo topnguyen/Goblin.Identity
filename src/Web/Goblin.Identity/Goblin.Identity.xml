@@ -42,6 +42,14 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.ConfirmEmail(Goblin.Identity.Share.Models.UserModels.GoblinIdentityConfirmEmailModel,System.Threading.CancellationToken)">
+            <summary>
+                Confirm Email
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:Goblin.Identity.Controllers.UserController.GetProfile(System.Int64,System.Threading.CancellationToken)">
             <summary>
                 Get Profile
