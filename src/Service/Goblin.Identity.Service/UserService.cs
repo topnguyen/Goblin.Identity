@@ -124,7 +124,32 @@ namespace Goblin.Identity.Service
                 throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
             
-            // TODO: check if update Roles, delete all existing role then add User-role relationship
+            using var transaction = await GoblinUnitOfWork.BeginTransactionAsync(cancellationToken).ConfigureAwait(true);
+
+            if (model.IsUpdateRoles)
+            {
+                _userRoleRepo.DeleteWhere(x => x.UserId == userEntity.Id);
+                
+                await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+                // User Roles
+
+                if (model.Roles?.Any() == true)
+                {
+                    model.Roles = model.Roles.Select(x => x.Trim()).ToList();
+                
+                    var roleEntities = await _roleRepo.Get(x => model.Roles.Contains(x.Name)).ToListAsync(cancellationToken).ConfigureAwait(true);
+
+                    foreach (var roleEntity in roleEntities)
+                    {
+                        _userRoleRepo.Add(new UserRoleEntity
+                        {
+                            UserId = userEntity.Id,
+                            RoleId = roleEntity.Id
+                        });
+                    }
+                }
+            }
 
             model.MapTo(userEntity);
 
@@ -141,6 +166,8 @@ namespace Goblin.Identity.Service
             );
 
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+            
+            transaction.Commit();
         }
 
         public async Task<GoblinIdentityEmailConfirmationModel> UpdateIdentityAsync(long id,

@@ -30,6 +30,8 @@ namespace Goblin.Identity.Share.Models.UserModels
         public string CompanyUrl { get; set; }
         
         // Role
+        
+        public bool IsUpdateRoles { get; set; } = false;
 
         public List<string> Roles { get; set; }
     }
