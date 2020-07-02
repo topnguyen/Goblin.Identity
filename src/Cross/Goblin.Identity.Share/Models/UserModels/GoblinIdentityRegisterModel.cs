@@ -3,7 +3,7 @@ using Goblin.Core.Models;
 
 namespace Goblin.Identity.Share.Models.UserModels
 {
-    public class GoblinIdentityRegisterModel : GoblinApiRequestModel
+    public class GoblinIdentityRegisterModel : GoblinApiSubmitRequestModel
     {
         // Basic Profile
 

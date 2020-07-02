@@ -2,7 +2,7 @@ using Goblin.Core.Models;
 
 namespace Goblin.Identity.Share.Models.UserModels
 {
-    public class GoblinIdentityConfirmEmailModel : GoblinApiRequestModel
+    public class GoblinIdentityConfirmEmailModel : GoblinApiSubmitRequestModel
     {
         public long Id { get; set; }
         

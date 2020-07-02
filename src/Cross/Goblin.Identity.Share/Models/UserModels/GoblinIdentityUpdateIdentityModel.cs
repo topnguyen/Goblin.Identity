@@ -2,7 +2,7 @@ using Goblin.Core.Models;
 
 namespace Goblin.Identity.Share.Models.UserModels
 {
-    public class GoblinIdentityUpdateIdentityModel : GoblinApiRequestModel
+    public class GoblinIdentityUpdateIdentityModel : GoblinApiSubmitRequestModel
     {
         public string CurrentPassword { get; set; }
         
