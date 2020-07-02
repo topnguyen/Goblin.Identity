@@ -19,8 +19,7 @@ namespace Goblin.Identity.Repository.Migrations
                     CreatedBy = table.Column<long>(nullable: true),
                     LastUpdatedBy = table.Column<long>(nullable: true),
                     DeletedBy = table.Column<long>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,8 +38,7 @@ namespace Goblin.Identity.Repository.Migrations
                     CreatedBy = table.Column<long>(nullable: true),
                     LastUpdatedBy = table.Column<long>(nullable: true),
                     DeletedBy = table.Column<long>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
