@@ -13,7 +13,6 @@ using Goblin.Core.Errors;
 using Goblin.Identity.Contract.Repository.Models;
 using Goblin.Identity.Core;
 using Goblin.Identity.Share;
-using Goblin.Identity.Share.Models;
 using Goblin.Identity.Share.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,11 +22,19 @@ namespace Goblin.Identity.Service
     public class UserService : Base.Service, IUserService
     {
         private readonly IGoblinRepository<UserEntity> _userRepo;
+        private readonly IGoblinRepository<RoleEntity> _roleRepo;
+        private readonly IGoblinRepository<UserRoleEntity> _userRoleRepo;
 
-        public UserService(IGoblinUnitOfWork goblinUnitOfWork, IGoblinRepository<UserEntity> userRepo) : base(
+        public UserService(IGoblinUnitOfWork goblinUnitOfWork, 
+            IGoblinRepository<UserEntity> userRepo,
+            IGoblinRepository<RoleEntity> roleRepo,
+            IGoblinRepository<UserRoleEntity> userRoleRepo 
+            ) : base(
             goblinUnitOfWork)
         {
             _userRepo = userRepo;
+            _roleRepo = roleRepo;
+            _userRoleRepo = userRoleRepo;
         }
 
         public async Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model,
@@ -40,6 +47,8 @@ namespace Goblin.Identity.Service
             CheckUniqueEmail(model.Email);
 
             CheckUniqueUserName(model.UserName);
+
+            using var transaction = await GoblinUnitOfWork.BeginTransactionAsync(cancellationToken).ConfigureAwait(true);
 
             var userEntity = model.MapTo<UserEntity>();
 
@@ -56,6 +65,30 @@ namespace Goblin.Identity.Service
             _userRepo.Add(userEntity);
 
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+            
+            // User Roles
+
+            if (model.Roles?.Any() == true)
+            {
+                model.Roles = model.Roles.Select(x => x.Trim()).ToList();
+                
+                var roleEntities = await _roleRepo.Get(x => model.Roles.Contains(x.Name)).ToListAsync(cancellationToken).ConfigureAwait(true);
+
+                foreach (var roleEntity in roleEntities)
+                {
+                    _userRoleRepo.Add(new UserRoleEntity
+                    {
+                        UserId = userEntity.Id,
+                        RoleId = roleEntity.Id
+                    });
+                }
+                
+                await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+            }
+
+            transaction.Commit();
+            
+            // Email Confirmation Code
 
             var emailConfirmationModel = new GoblinIdentityEmailConfirmationModel
             {
@@ -90,6 +123,8 @@ namespace Goblin.Identity.Service
             {
                 throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
+            
+            // TODO: check if update Roles, delete all existing role then add User-role relationship
 
             model.MapTo(userEntity);
 

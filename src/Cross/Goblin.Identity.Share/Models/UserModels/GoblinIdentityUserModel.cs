@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Goblin.Identity.Share.Models.UserModels
 {
@@ -44,5 +45,11 @@ namespace Goblin.Identity.Share.Models.UserModels
         ///     Remove token generated before specific time
         /// </summary>
         public DateTimeOffset RevokeTokenGeneratedBeforeTime { get; set; }
+        
+        // Role
+
+        public List<string> Roles { get; set; }
+        
+        public List<string> Permissions { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Goblin.Core.Models;
 
 namespace Goblin.Identity.Share.Models.UserModels
@@ -27,5 +28,9 @@ namespace Goblin.Identity.Share.Models.UserModels
         public string CompanyName { get; set; }
         
         public string CompanyUrl { get; set; }
+        
+        // Role
+
+        public List<string> Roles { get; set; }
     }
 }

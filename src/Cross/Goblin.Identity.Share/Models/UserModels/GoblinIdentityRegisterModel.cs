@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Goblin.Core.Models;
 
 namespace Goblin.Identity.Share.Models.UserModels
@@ -36,5 +37,8 @@ namespace Goblin.Identity.Share.Models.UserModels
 
         public string Password { get; set; }
 
+        // Role
+
+        public List<string> Roles { get; set; }
     }
 }
