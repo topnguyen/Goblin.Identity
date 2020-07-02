@@ -38,9 +38,6 @@ namespace Goblin.Identity.Repository.Migrations
                     b.Property<DateTimeOffset?>("DeletedTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long?>("LastUpdatedBy")
                         .HasColumnType("bigint");
 
@@ -85,9 +82,6 @@ namespace Goblin.Identity.Repository.Migrations
 
                     b.Property<DateTimeOffset?>("DeletedTime")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("LastUpdatedBy")
                         .HasColumnType("bigint");

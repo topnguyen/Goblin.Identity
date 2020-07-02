@@ -1,6 +1,6 @@
 using Goblin.Core.Models;
 
-namespace Goblin.Identity.Share.Models
+namespace Goblin.Identity.Share.Models.UserModels
 {
     public class GoblinIdentityUpdateIdentityModel : GoblinApiRequestModel
     {

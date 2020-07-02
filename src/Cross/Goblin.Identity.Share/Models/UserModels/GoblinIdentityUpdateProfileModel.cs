@@ -1,11 +1,9 @@
-using System;
+using Goblin.Core.Models;
 
-namespace Goblin.Identity.Share.Models
+namespace Goblin.Identity.Share.Models.UserModels
 {
-    public class GoblinIdentityUserModel
+    public class GoblinIdentityUpdateProfileModel : GoblinApiRequestModel
     {
-        public long Id { get; set; }
-        
         // Basic Profile
 
         public string AvatarUrl { get; set; }
@@ -29,20 +27,5 @@ namespace Goblin.Identity.Share.Models
         public string CompanyName { get; set; }
         
         public string CompanyUrl { get; set; }
-
-        // Identity
-
-        public string UserName { get; set; }
-
-        // Email
-
-        public string Email { get; set; }
-
-        public DateTimeOffset? EmailConfirmedTime { get; set; }
-
-        /// <summary>
-        ///     Remove token generated before specific time
-        /// </summary>
-        public DateTimeOffset RevokeTokenGeneratedBeforeTime { get; set; }
     }
 }

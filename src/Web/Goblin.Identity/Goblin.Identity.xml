@@ -4,7 +4,37 @@
         <name>Goblin.Identity</name>
     </assembly>
     <members>
-        <member name="M:Goblin.Identity.Controllers.UserController.Register(Goblin.Identity.Share.Models.GoblinIdentityRegisterModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.RoleController.UpsertRole(Goblin.Identity.Share.Models.RoleModels.GoblinIdentityUpsertRoleModel,System.Threading.CancellationToken)">
+            <summary>
+                Create or Update Role
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.RoleController.GetRole(System.String,System.Threading.CancellationToken)">
+            <summary>
+                Get Role Detail
+            </summary>
+            <param name="name"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.RoleController.GetAllRoles(System.Threading.CancellationToken)">
+            <summary>
+                Get All Role Name
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.RoleController.GetAllPermissions(System.Threading.CancellationToken)">
+            <summary>
+                Get All Permission Name
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.Register(Goblin.Identity.Share.Models.UserModels.GoblinIdentityRegisterModel,System.Threading.CancellationToken)">
             <summary>
                 Register User
             </summary>
@@ -20,7 +50,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.UpdateProfile(System.Int64,Goblin.Identity.Share.Models.GoblinIdentityUpdateProfileModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.UpdateProfile(System.Int64,Goblin.Identity.Share.Models.UserModels.GoblinIdentityUpdateProfileModel,System.Threading.CancellationToken)">
             <summary>
                 Update Profile
             </summary>
@@ -29,7 +59,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.UpdateIdentity(System.Int64,Goblin.Identity.Share.Models.GoblinIdentityUpdateIdentityModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.UpdateIdentity(System.Int64,Goblin.Identity.Share.Models.UserModels.GoblinIdentityUpdateIdentityModel,System.Threading.CancellationToken)">
             <summary>
                 Update Identity
             </summary>
@@ -46,7 +76,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.GenerateAccessToken(Goblin.Identity.Share.Models.GoblinIdentityGenerateAccessTokenModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.GenerateAccessToken(Goblin.Identity.Share.Models.UserModels.GoblinIdentityGenerateAccessTokenModel,System.Threading.CancellationToken)">
             <summary>
                 Generate Access Token
             </summary>

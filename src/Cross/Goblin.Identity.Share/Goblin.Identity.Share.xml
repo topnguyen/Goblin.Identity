@@ -39,7 +39,27 @@
                 HTTP Method: GET
             </summary>
         </member>
-        <member name="P:Goblin.Identity.Share.Models.GoblinIdentityUserModel.RevokeTokenGeneratedBeforeTime">
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetAllRoles">
+            <summary>
+                HTTP Method: GET
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetRole">
+            <summary>
+                HTTP Method: GET
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpsertRole">
+            <summary>
+                HTTP Method: POST
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetAllPermissions">
+            <summary>
+                HTTP Method: GET
+            </summary>
+        </member>
+        <member name="P:Goblin.Identity.Share.Models.UserModels.GoblinIdentityUserModel.RevokeTokenGeneratedBeforeTime">
             <summary>
                 Remove token generated before specific time
             </summary>

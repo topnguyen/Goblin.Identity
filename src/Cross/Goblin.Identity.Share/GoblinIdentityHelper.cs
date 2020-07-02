@@ -5,6 +5,7 @@ using Flurl;
 using Flurl.Http;
 using Goblin.Core.Errors;
 using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 
 namespace Goblin.Identity.Share
 {

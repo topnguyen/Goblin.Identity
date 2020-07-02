@@ -1,8 +1,8 @@
 using Goblin.Core.Models;
 
-namespace Goblin.Identity.Share.Models
+namespace Goblin.Identity.Share.Models.UserModels
 {
-    public class GoblinIdentityUpdateProfileModel : GoblinApiRequestModel
+    public class GoblinIdentityRegisterModel : GoblinApiRequestModel
     {
         // Basic Profile
 
@@ -27,5 +27,14 @@ namespace Goblin.Identity.Share.Models
         public string CompanyName { get; set; }
         
         public string CompanyUrl { get; set; }
+
+        // Identity
+
+        public string Email { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
+
     }
 }

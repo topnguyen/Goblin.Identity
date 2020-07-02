@@ -36,5 +36,25 @@ namespace Goblin.Identity.Share
         ///     HTTP Method: GET
         /// </summary>
         public const string GetProfileByAccessToken = "/access-tokens";
+        
+        /// <summary>
+        ///     HTTP Method: GET
+        /// </summary>
+        public const string GetAllRoles = "/roles";
+        
+        /// <summary>
+        ///     HTTP Method: GET
+        /// </summary>
+        public const string GetRole = "/roles/{name}";
+        
+        /// <summary>
+        ///     HTTP Method: POST
+        /// </summary>
+        public const string UpsertRole = "/roles";
+        
+        /// <summary>
+        ///     HTTP Method: GET
+        /// </summary>
+        public const string GetAllPermissions = "/permissions";
     }
 }

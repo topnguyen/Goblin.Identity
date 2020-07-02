@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Goblin.Identity.Repository.Migrations
 {
     [DbContext(typeof(GoblinDbContext))]
-    [Migration("20200701142635_Initial")]
+    [Migration("20200702124803_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,9 +39,6 @@ namespace Goblin.Identity.Repository.Migrations
 
                     b.Property<DateTimeOffset?>("DeletedTime")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("LastUpdatedBy")
                         .HasColumnType("bigint");
@@ -87,9 +84,6 @@ namespace Goblin.Identity.Repository.Migrations
 
                     b.Property<DateTimeOffset?>("DeletedTime")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long?>("LastUpdatedBy")
                         .HasColumnType("bigint");

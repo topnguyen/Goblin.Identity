@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Elect.Web.Swagger.Attributes;
 using Goblin.Identity.Contract.Service;
 using Goblin.Identity.Share;
-using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,7 +28,7 @@ namespace Goblin.Identity.Controllers
         [ApiDocGroup("User")]
         [HttpPost]
         [Route(GoblinIdentityEndpoints.RegisterUser)]
-        [SwaggerResponse(StatusCodes.Status201Created, "Sample Saved", typeof(GoblinIdentityEmailConfirmationModel))]
+        [SwaggerResponse(StatusCodes.Status201Created, "User Saved", typeof(GoblinIdentityEmailConfirmationModel))]
         public async Task<IActionResult> Register([FromBody] GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default)
         {
             var registerResponseModel = await _userService.RegisterAsync(model, cancellationToken);

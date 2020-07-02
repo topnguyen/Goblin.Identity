@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 
 namespace Goblin.Identity.Contract.Service
 {

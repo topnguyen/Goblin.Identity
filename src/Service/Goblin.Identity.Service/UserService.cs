@@ -14,6 +14,7 @@ using Goblin.Identity.Contract.Repository.Models;
 using Goblin.Identity.Core;
 using Goblin.Identity.Share;
 using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Goblin.Identity.Service

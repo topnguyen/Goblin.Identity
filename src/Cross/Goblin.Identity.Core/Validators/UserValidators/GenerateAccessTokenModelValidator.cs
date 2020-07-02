@@ -1,7 +1,7 @@
 using FluentValidation;
-using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators
+namespace Goblin.Identity.Core.Validators.UserValidators
 {
     public class GenerateAccessTokenModelValidator : AbstractValidator<GoblinIdentityGenerateAccessTokenModel>
     {

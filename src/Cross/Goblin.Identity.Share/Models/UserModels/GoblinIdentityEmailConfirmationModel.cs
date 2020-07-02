@@ -1,6 +1,6 @@
 using System;
 
-namespace Goblin.Identity.Share.Models
+namespace Goblin.Identity.Share.Models.UserModels
 {
     public class GoblinIdentityEmailConfirmationModel
     {

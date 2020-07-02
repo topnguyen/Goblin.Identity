@@ -1,12 +1,12 @@
 using System;
 using FluentValidation;
-using Goblin.Identity.Share.Models;
+using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators
+namespace Goblin.Identity.Core.Validators.UserValidators
 {
-    public class UpdateProfileModelValidator : AbstractValidator<GoblinIdentityUpdateProfileModel>
+    public class RegisterUserModelValidator : AbstractValidator<GoblinIdentityRegisterModel>
     {
-        public UpdateProfileModelValidator()
+        public RegisterUserModelValidator()
         {
             RuleFor(x => x.AvatarUrl)
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _) && uri.Length < 1000)
@@ -38,6 +38,21 @@ namespace Goblin.Identity.Core.Validators
             RuleFor(x => x.CompanyUrl)
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _) && uri.Length < 1000)
                 .When(x => !string.IsNullOrWhiteSpace(x.AvatarUrl));
+
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .EmailAddress()
+                .MaximumLength(200);
+            
+            RuleFor(x => x.UserName)
+                .NotEmpty()
+                .MinimumLength(3)
+                .MaximumLength(200);
+            
+            RuleFor(x => x.Password)
+                .NotEmpty()
+                .MinimumLength(4)
+                .MaximumLength(200);          
         }
     }
 }
