@@ -51,5 +51,11 @@ namespace Goblin.Identity.Share.Models.UserModels
         public List<string> Roles { get; set; }
         
         public List<string> Permissions { get; set; }
+        
+        // Audit
+        
+        public DateTimeOffset CreatedTime { get; set; }
+
+        public DateTimeOffset LastUpdatedTime { get; set; }
     }
 }

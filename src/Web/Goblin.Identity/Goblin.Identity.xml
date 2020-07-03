@@ -34,6 +34,14 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.GetPaged(Goblin.Identity.Share.Models.UserModels.GoblinIdentityGetPagedUserModel,System.Threading.CancellationToken)">
+            <summary>
+                Get Paged User
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:Goblin.Identity.Controllers.UserController.Register(Goblin.Identity.Share.Models.UserModels.GoblinIdentityRegisterModel,System.Threading.CancellationToken)">
             <summary>
                 Register User

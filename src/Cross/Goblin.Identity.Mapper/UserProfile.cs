@@ -16,7 +16,7 @@ namespace Goblin.Identity.Mapper
             
             CreateMap<UserEntity, GoblinIdentityUserModel>().IgnoreAllNonExisting()
                 .ForMember(x => x.Roles, o => o.MapFrom(x => x.UserRoles.Select(y => y.Role.Name)))
-                .ForMember(x => x.Permissions, o => o.MapFrom(x => x.UserRoles.SelectMany(y => y.Role.RolePermissions.Select(k => k.Permission))));
+                .ForMember(x => x.Permissions, o => o.MapFrom(x => x.UserRoles.SelectMany(y => y.Role.RolePermissions.Select(k => k.Permission.Name))));
         }
     }
 }

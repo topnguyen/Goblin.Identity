@@ -14,17 +14,7 @@
                 HTTP Method: GET
             </summary>
         </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.ConfirmEmail">
-            <summary>
-                HTTP Method: PUT
-            </summary>
-        </member>
         <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateProfile">
-            <summary>
-                HTTP Method: PUT
-            </summary>
-        </member>
-        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateIdentity">
             <summary>
                 HTTP Method: PUT
             </summary>
@@ -32,6 +22,21 @@
         <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.DeleteUser">
             <summary>
                 HTTP Method: DELETE
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetPagedUser">
+            <summary>
+                HTTP Method: POST
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.ConfirmEmail">
+            <summary>
+                HTTP Method: PUT
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.UpdateIdentity">
+            <summary>
+                HTTP Method: PUT
             </summary>
         </member>
         <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GenerateAccessToken">

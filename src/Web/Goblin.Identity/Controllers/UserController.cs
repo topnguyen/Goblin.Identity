@@ -1,6 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Elect.Web.Swagger.Attributes;
+using Goblin.Core.Models;
+using Goblin.Core.Web.Utils;
 using Goblin.Identity.Contract.Service;
 using Goblin.Identity.Share;
 using Goblin.Identity.Share.Models.UserModels;
@@ -17,6 +19,25 @@ namespace Goblin.Identity.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+        
+        /// <summary>
+        ///     Get Paged User
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("User")]
+        [HttpPost]
+        [Route(GoblinIdentityEndpoints.GetPagedUser)]
+        [SwaggerResponse(StatusCodes.Status200OK, "User Paged with Metadata", typeof(GoblinApiPagedMetaResponseModel<GoblinIdentityGetPagedUserModel, GoblinIdentityUserModel>))]
+        public async Task<IActionResult> GetPaged([FromBody] GoblinIdentityGetPagedUserModel model, CancellationToken cancellationToken = default)
+        {
+            var userPagedModel = await _userService.GetPagedAsync(model, cancellationToken);
+
+            var userPagedWithMetadataResponseModel = Url.GetGoblinApiPagedMetaResponseModel(model, userPagedModel);
+            
+            return Ok(userPagedWithMetadataResponseModel);
         }
 
         /// <summary>

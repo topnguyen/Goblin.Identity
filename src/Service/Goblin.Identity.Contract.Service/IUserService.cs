@@ -1,12 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Goblin.Identity.Share.Models;
+using Goblin.Core.Models;
 using Goblin.Identity.Share.Models.UserModels;
 
 namespace Goblin.Identity.Contract.Service
 {
     public interface IUserService
     {
+        Task<GoblinApiPagedResponseModel<GoblinIdentityUserModel>> GetPagedAsync(GoblinIdentityGetPagedUserModel model, CancellationToken cancellationToken = default);
+
         Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default);
         
         Task<GoblinIdentityUserModel> GetProfileAsync(long id, CancellationToken cancellationToken = default);
