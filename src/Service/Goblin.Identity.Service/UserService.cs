@@ -46,7 +46,7 @@ namespace Goblin.Identity.Service
             var query = _userRepo.Get();
 
             // Filters
-            
+
             if (model.Email != null)
             {
                 query = query.Where(x => x.Email.Contains(model.Email));
@@ -74,27 +74,32 @@ namespace Goblin.Identity.Service
             var includeIds = model.IncludeIds.ToList<long>(long.TryParse);
 
             // Includes
-            
+
             if (includeIds.Any())
             {
                 var includeIdsQuery = _userRepo.Get(x => includeIds.Contains(x.Id));
-                
+
                 query = query.Union(includeIdsQuery);
             }
+
+            // Build Model Query
             
+            var modelQuery = query.QueryTo<GoblinIdentityUserModel>();
+
             // Order
 
             var sortByDirection = model.IsSortAscending ? "ASC" : "DESC";
 
             var orderByDynamicStatement = $"{model.SortBy} {sortByDirection}";
-            
+
+            modelQuery = !string.IsNullOrWhiteSpace(model.SortBy) ? modelQuery.OrderBy(orderByDynamicStatement) : modelQuery.OrderByDescending(x => x.LastUpdatedTime);
+
             // Get Result
-            
+
             var total = query.LongCount();
 
             var items =
-                query.QueryTo<GoblinIdentityUserModel>()
-                    .OrderBy(orderByDynamicStatement)
+                modelQuery
                     .Skip(model.Skip)
                     .Take(model.Take)
                     .ToList();
