@@ -15,7 +15,7 @@
         <ProjectReference Include="..\Goblin.Identity.Contract.Service\Goblin.Identity.Contract.Service.csproj" />
         <ProjectReference Include="..\..\Cross\Goblin.Identity.Core\Goblin.Identity.Core.csproj" />
 
-        <PackageReference Include="System.Linq.Dynamic.Core" Version="1.1.6" />
+        <PackageReference Include="System.Linq.Dynamic.Core" Version="1.1.7" />
         <PackageReference Include="LitJWT" Version="1.1.0" />
     </ItemGroup>
 </Project>

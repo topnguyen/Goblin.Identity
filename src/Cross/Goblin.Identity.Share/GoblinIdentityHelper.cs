@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Flurl.Http;
+using Flurl.Http.Configuration;
 using Goblin.Core.Constants;
 using Goblin.Core.Errors;
 using Goblin.Core.Models;
+using Goblin.Core.Settings;
 using Goblin.Identity.Share.Models.RoleModels;
 using Goblin.Identity.Share.Models.UserModels;
 
@@ -17,7 +19,12 @@ namespace Goblin.Identity.Share
 
         public static string AuthorizationKey { get; set; } = string.Empty;
 
-        public static async Task<GoblinApiPagedMetaResponseModel<GoblinIdentityGetPagedUserModel, GoblinIdentityUserModel>> GetPagedAsync(GoblinIdentityGetPagedUserModel model, CancellationToken cancellationToken = default)
+        public static readonly ISerializer JsonSerializer =
+            new NewtonsoftJsonSerializer(GoblinJsonSetting.JsonSerializerSettings);
+
+        public static async
+            Task<GoblinApiPagedMetaResponseModel<GoblinIdentityGetPagedUserModel, GoblinIdentityUserModel>>
+            GetPagedAsync(GoblinIdentityGetPagedUserModel model, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -26,8 +33,10 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.GetPagedUser);
 
                 var userPagedMetaResponse = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
-                    .ReceiveJson<GoblinApiPagedMetaResponseModel<GoblinIdentityGetPagedUserModel, GoblinIdentityUserModel>>()
+                    .ReceiveJson<GoblinApiPagedMetaResponseModel<GoblinIdentityGetPagedUserModel,
+                        GoblinIdentityUserModel>>()
                     .ConfigureAwait(true);
 
                 return userPagedMetaResponse;
@@ -49,7 +58,8 @@ namespace Goblin.Identity.Share
             }
         }
 
-        public static async Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model, CancellationToken cancellationToken = default)
+        public static async Task<GoblinIdentityEmailConfirmationModel> RegisterAsync(GoblinIdentityRegisterModel model,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -59,6 +69,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.RegisterUser);
 
                 var emailConfirmModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
                     .ReceiveJson<GoblinIdentityEmailConfirmationModel>()
                     .ConfigureAwait(true);
@@ -82,7 +93,8 @@ namespace Goblin.Identity.Share
             }
         }
 
-        public static async Task ConfirmEmailAsync(GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
+        public static async Task ConfirmEmailAsync(GoblinIdentityConfirmEmailModel model,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -92,6 +104,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.ConfirmEmail);
 
                 await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PutJsonAsync(model, cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
             }
@@ -111,17 +124,19 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
-        public static async Task<GoblinIdentityUserModel> GetProfileAsync(long id, CancellationToken cancellationToken = default)
+
+        public static async Task<GoblinIdentityUserModel> GetProfileAsync(long id,
+            CancellationToken cancellationToken = default)
         {
             try
             {
                 var endpoint = Domain
                     .WithHeader(GoblinHeaderKeys.Authorization, AuthorizationKey)
                     .AppendPathSegment(GoblinIdentityEndpoints.GetProfile.Replace("{id}", id.ToString()));
-                
+
 
                 var userModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .GetJsonAsync<GoblinIdentityUserModel>(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
@@ -143,8 +158,9 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
-        public static async Task UpdateProfileAsync(long id, GoblinIdentityUpdateProfileModel model, CancellationToken cancellationToken = default)
+
+        public static async Task UpdateProfileAsync(long id, GoblinIdentityUpdateProfileModel model,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -152,9 +168,10 @@ namespace Goblin.Identity.Share
                     .WithHeader(GoblinHeaderKeys.Authorization, AuthorizationKey)
                     .WithHeader(GoblinHeaderKeys.UserId, model.LoggedInUserId)
                     .AppendPathSegment(GoblinIdentityEndpoints.UpdateProfile.Replace("{id}", id.ToString()));
-                
+
 
                 await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PutJsonAsync(model, cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
             }
@@ -175,7 +192,8 @@ namespace Goblin.Identity.Share
             }
         }
 
-        public static async Task<GoblinIdentityEmailConfirmationModel> UpdateIdentityAsync(long id, GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default)
+        public static async Task<GoblinIdentityEmailConfirmationModel> UpdateIdentityAsync(long id,
+            GoblinIdentityUpdateIdentityModel model, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -185,6 +203,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.UpdateIdentity.Replace("{id}", id.ToString()));
 
                 var emailConfirmModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PutJsonAsync(model, cancellationToken: cancellationToken)
                     .ReceiveJson<GoblinIdentityEmailConfirmationModel>()
                     .ConfigureAwait(true);
@@ -208,7 +227,8 @@ namespace Goblin.Identity.Share
             }
         }
 
-        public static async Task DeleteAsync(long id, long? loggedInUserId, CancellationToken cancellationToken = default)
+        public static async Task DeleteAsync(long id, long? loggedInUserId,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -217,7 +237,8 @@ namespace Goblin.Identity.Share
                     .WithHeader(GoblinHeaderKeys.UserId, loggedInUserId)
                     .AppendPathSegment(GoblinIdentityEndpoints.DeleteUser.Replace("{id}", id.ToString()));
 
-              await endpoint
+                await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .DeleteAsync(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
             }
@@ -237,8 +258,9 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
-        public static async Task<string> GenerateAccessTokenAsync(GoblinIdentityGenerateAccessTokenModel model, CancellationToken cancellationToken = default)
+
+        public static async Task<string> GenerateAccessTokenAsync(GoblinIdentityGenerateAccessTokenModel model,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -248,6 +270,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.GenerateAccessToken);
 
                 var accessToken = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
                     .ReceiveString()
                     .ConfigureAwait(true);
@@ -270,8 +293,9 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
-        public static async Task<GoblinIdentityUserModel> GetProfileByAccessTokenAsync(string accessToken, CancellationToken cancellationToken = default)
+
+        public static async Task<GoblinIdentityUserModel> GetProfileByAccessTokenAsync(string accessToken,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -279,9 +303,10 @@ namespace Goblin.Identity.Share
                     .WithHeader(GoblinHeaderKeys.Authorization, AuthorizationKey)
                     .AppendPathSegment(GoblinIdentityEndpoints.GetProfileByAccessToken)
                     .SetQueryParam("accessToken", accessToken);
-                
+
 
                 var userModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .GetJsonAsync<GoblinIdentityUserModel>(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
@@ -304,7 +329,8 @@ namespace Goblin.Identity.Share
             }
         }
 
-        public static async Task<GoblinIdentityRoleModel> UpsertRoleAsync(GoblinIdentityUpsertRoleModel model, CancellationToken cancellationToken = default)
+        public static async Task<GoblinIdentityRoleModel> UpsertRoleAsync(GoblinIdentityUpsertRoleModel model,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -314,6 +340,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.UpsertRole);
 
                 var roleModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
                     .ReceiveJson<GoblinIdentityRoleModel>()
                     .ConfigureAwait(true);
@@ -336,8 +363,9 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
-        public static async Task<GoblinIdentityRoleModel> GetRoleAsync(string name, CancellationToken cancellationToken = default)
+
+        public static async Task<GoblinIdentityRoleModel> GetRoleAsync(string name,
+            CancellationToken cancellationToken = default)
         {
             try
             {
@@ -346,6 +374,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.GetRole.Replace("name", name));
 
                 var roleModel = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .GetJsonAsync<GoblinIdentityRoleModel>(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
@@ -367,7 +396,7 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
+
         public static async Task<List<string>> GetAllRolesAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -377,6 +406,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.GetAllRoles);
 
                 var roleNames = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .GetJsonAsync<List<string>>(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
@@ -398,7 +428,7 @@ namespace Goblin.Identity.Share
                 throw new Exception(message);
             }
         }
-        
+
         public static async Task<List<string>> GetAllPermissionsAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -408,6 +438,7 @@ namespace Goblin.Identity.Share
                     .AppendPathSegment(GoblinIdentityEndpoints.GetAllPermissions);
 
                 var permissionNames = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
                     .GetJsonAsync<List<string>>(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
