@@ -455,20 +455,18 @@ namespace Goblin.Identity.Service
                     GoblinIdentityErrorCode.AccessTokenIsExpired);
             }
 
-            var userEntity =
+            var userModel =
                 await _userRepo
                     .Get(x => x.Id == accessTokenDataModel.Data.UserId)
+                   .QueryTo<GoblinIdentityUserModel>()
                     .FirstOrDefaultAsync(cancellationToken: cancellationToken)
                     .ConfigureAwait(true);
 
-            if (accessTokenDataModel.CreatedTime < userEntity.RevokeTokenGeneratedBeforeTime)
+            if (accessTokenDataModel.CreatedTime < userModel.RevokeTokenGeneratedBeforeTime)
             {
                 throw new GoblinException(nameof(GoblinIdentityErrorCode.AccessTokenIsRevoked),
                     GoblinIdentityErrorCode.AccessTokenIsRevoked);
             }
-
-            var userModel = userEntity.MapTo<GoblinIdentityUserModel>();
-
             // If user not found, then ignore
 
             if (userModel == null)
