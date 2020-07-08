@@ -129,7 +129,7 @@ namespace Goblin.Identity.Service
 
             var userEntity = model.MapTo<UserEntity>();
 
-            userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
+            userEntity.PasswordLastUpdatedTime = userEntity.RevokeTokenGeneratedBeforeTime = GoblinDateTimeHelper.SystemTimeNow;
 
             userEntity.PasswordHash =
                 PasswordHelper.HashPassword(model.Password, userEntity.PasswordLastUpdatedTime);
@@ -286,15 +286,13 @@ namespace Goblin.Identity.Service
                 // If user have changed password, then update password and related information
                 if (newPasswordHashWithOldSalt != userEntity.PasswordHash)
                 {
-                    userEntity.PasswordLastUpdatedTime = GoblinDateTimeHelper.SystemTimeNow;
+                    userEntity.PasswordLastUpdatedTime =  userEntity.RevokeTokenGeneratedBeforeTime = GoblinDateTimeHelper.SystemTimeNow;
                     changedProperties.Add(nameof(userEntity.PasswordLastUpdatedTime));
+                    changedProperties.Add(nameof(userEntity.RevokeTokenGeneratedBeforeTime));
 
                     userEntity.PasswordHash =
                         PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
                     changedProperties.Add(nameof(userEntity.PasswordHash));
-
-                    userEntity.RevokeTokenGeneratedBeforeTime = userEntity.PasswordLastUpdatedTime;
-                    changedProperties.Add(nameof(userEntity.RevokeTokenGeneratedBeforeTime));
                 }
             }
 
