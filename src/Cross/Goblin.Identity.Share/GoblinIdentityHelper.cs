@@ -329,6 +329,73 @@ namespace Goblin.Identity.Share
             }
         }
 
+        public static async Task<GoblinIdentityResetPasswordTokenModel> RequestResetPasswordAsync(
+            GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var endpoint = Domain
+                    .WithHeader(GoblinHeaderKeys.Authorization, AuthorizationKey)
+                    .WithHeader(GoblinHeaderKeys.UserId, model.LoggedInUserId)
+                    .AppendPathSegment(GoblinIdentityEndpoints.RequestResetPassword);
+
+                var resetPassordToken = await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
+                    .PostJsonAsync(model, cancellationToken: cancellationToken)
+                    .ReceiveJson<GoblinIdentityResetPasswordTokenModel>()
+                    .ConfigureAwait(true);
+
+                return resetPassordToken;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var goblinErrorModel = await ex.GetResponseJsonAsync<GoblinErrorModel>().ConfigureAwait(true);
+
+                if (goblinErrorModel != null)
+                {
+                    throw new GoblinException(goblinErrorModel);
+                }
+
+                var responseString = await ex.GetResponseStringAsync().ConfigureAwait(true);
+
+                var message = responseString ?? ex.Message;
+
+                throw new Exception(message);
+            }
+        }
+
+        public static async Task ResetPasswordAsync(GoblinIdentityResetPasswordModel model,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var endpoint = Domain
+                    .WithHeader(GoblinHeaderKeys.Authorization, AuthorizationKey)
+                    .WithHeader(GoblinHeaderKeys.UserId, model.LoggedInUserId)
+                    .AppendPathSegment(GoblinIdentityEndpoints.ResetPassword);
+
+                await endpoint
+                    .ConfigureRequest(x => { x.JsonSerializer = JsonSerializer; })
+                    .PutJsonAsync(model, cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
+            }
+            catch (FlurlHttpException ex)
+            {
+                var goblinErrorModel = await ex.GetResponseJsonAsync<GoblinErrorModel>().ConfigureAwait(true);
+
+                if (goblinErrorModel != null)
+                {
+                    throw new GoblinException(goblinErrorModel);
+                }
+
+                var responseString = await ex.GetResponseStringAsync().ConfigureAwait(true);
+
+                var message = responseString ?? ex.Message;
+
+                throw new Exception(message);
+            }
+        }
+
         public static async Task<GoblinIdentityRoleModel> UpsertRoleAsync(GoblinIdentityUpsertRoleModel model,
             CancellationToken cancellationToken = default)
         {

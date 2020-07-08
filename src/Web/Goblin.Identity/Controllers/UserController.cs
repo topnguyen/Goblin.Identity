@@ -177,5 +177,39 @@ namespace Goblin.Identity.Controllers
 
             return Ok(userModel);
         }
+        
+        /// <summary>
+        ///     Request Reset Password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpPost]
+        [Route(GoblinIdentityEndpoints.RequestResetPassword)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Reset Password Token", typeof(GoblinIdentityResetPasswordTokenModel))]
+        public async Task<IActionResult> GetProfileByAccessToken([FromBody] GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default)
+        {
+            var resetPasswordToken = await _userService.RequestResetPasswordAsync(model, cancellationToken);
+
+            return Ok(resetPasswordToken);
+        }
+        
+        /// <summary>
+        ///     Reset Password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpPut]
+        [Route(GoblinIdentityEndpoints.ResetPassword)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Update Password Successfuly")]
+        public async Task<IActionResult> GetProfileByAccessToken([FromBody] GoblinIdentityResetPasswordModel model, CancellationToken cancellationToken = default)
+        {
+            await _userService.ResetPasswordAsync(model, cancellationToken);
+
+            return NoContent();
+        }
     }
 }

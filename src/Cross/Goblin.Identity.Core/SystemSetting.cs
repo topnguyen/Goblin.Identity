@@ -17,5 +17,7 @@ namespace Goblin.Identity.Core
         public TimeSpan AccessTokenLifetime { get; set; }
         
         public TimeSpan EmailConfirmTokenLifetime { get; set; }
+        
+        public TimeSpan SetPasswordTokenLifetime { get; set; }
     }
 }

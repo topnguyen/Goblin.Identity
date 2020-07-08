@@ -108,5 +108,21 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.GetProfileByAccessToken(Goblin.Identity.Share.Models.UserModels.GoblinIdentityRequestResetPasswordModel,System.Threading.CancellationToken)">
+            <summary>
+                Request Reset Password
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.GetProfileByAccessToken(Goblin.Identity.Share.Models.UserModels.GoblinIdentityResetPasswordModel,System.Threading.CancellationToken)">
+            <summary>
+                Reset Password
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

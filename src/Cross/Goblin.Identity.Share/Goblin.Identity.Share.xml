@@ -49,6 +49,16 @@
                 HTTP Method: GET
             </summary>
         </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.RequestResetPassword">
+            <summary>
+                HTTP Method: POST
+            </summary>
+        </member>
+        <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.ResetPassword">
+            <summary>
+                HTTP Method: PUT
+            </summary>
+        </member>
         <member name="F:Goblin.Identity.Share.GoblinIdentityEndpoints.GetAllRoles">
             <summary>
                 HTTP Method: GET

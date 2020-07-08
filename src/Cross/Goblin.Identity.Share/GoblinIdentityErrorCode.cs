@@ -16,6 +16,10 @@ namespace Goblin.Identity.Share
         
         public const string ConfirmEmailTokenExpired = "Confirm Email Token is expired";
         
+        public const string SetPasswordTokenInCorrect = "Set Passord Token is incorrect!";
+
+        public const string SetPasswordTokenExpired = "Set Passord Token is expired";
+        
         public const string AccessTokenIsInvalid = "Access Token is invalid";
         
         public const string AccessTokenIsExpired = "Access Token is expired";

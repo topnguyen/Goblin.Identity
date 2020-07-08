@@ -20,7 +20,11 @@ namespace Goblin.Identity.Contract.Service
         Task DeleteAsync(long id, CancellationToken cancellationToken = default);
         
         Task ConfirmEmail(GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default);
-
+        
+        Task<GoblinIdentityResetPasswordTokenModel> RequestResetPasswordAsync(GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default);
+        
+        Task ResetPasswordAsync(GoblinIdentityResetPasswordModel model, CancellationToken cancellationToken = default);
+        
         Task<string> GenerateAccessTokenAsync(GoblinIdentityGenerateAccessTokenModel model, CancellationToken cancellationToken = default);
         
         Task<GoblinIdentityUserModel> GetProfileByAccessTokenAsync(string accessToken, CancellationToken cancellationToken = default);

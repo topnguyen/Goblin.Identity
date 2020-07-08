@@ -51,6 +51,16 @@ namespace Goblin.Identity.Share
         /// </summary>
         public const string GetProfileByAccessToken = "/access-tokens";
         
+        /// <summary>
+        ///     HTTP Method: POST
+        /// </summary>
+        public const string RequestResetPassword = "/request-reset-password";
+        
+        /// <summary>
+        ///     HTTP Method: PUT
+        /// </summary>
+        public const string ResetPassword = "/reset-password";
+        
         // ------------------------------------------------------------------------
         // Roles
         // ------------------------------------------------------------------------
