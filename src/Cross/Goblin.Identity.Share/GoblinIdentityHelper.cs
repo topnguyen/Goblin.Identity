@@ -82,25 +82,7 @@ namespace Goblin.Identity.Share
                 return null;
             }
         }
-
-        public static async Task ConfirmEmailAsync(GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
-        {
-            ValidationHelper.Validate<GoblinIdentityConfirmEmailModelValidator, GoblinIdentityConfirmEmailModel>(model);
-
-            try
-            {
-                var endpoint = GetRequest(model.LoggedInUserId).AppendPathSegment(GoblinIdentityEndpoints.ConfirmEmail);
-
-                await endpoint
-                    .PutJsonAsync(model, cancellationToken: cancellationToken)
-                    .ConfigureAwait(true);
-            }
-            catch (FlurlHttpException ex)
-            {
-                await FlurlHttpExceptionHelper.HandleErrorAsync(ex).ConfigureAwait(true);
-            }
-        }
-
+        
         public static async Task<GoblinIdentityUserModel> GetProfileAsync(long id, CancellationToken cancellationToken = default)
         {
             try
@@ -234,12 +216,12 @@ namespace Goblin.Identity.Share
             {
                 var endpoint = GetRequest(model.LoggedInUserId).AppendPathSegment(GoblinIdentityEndpoints.RequestResetPassword);
 
-                var resetPassordToken = await endpoint
+                var resetPasswordToken = await endpoint
                     .PostJsonAsync(model, cancellationToken: cancellationToken)
                     .ReceiveJson<GoblinIdentityResetPasswordTokenModel>()
                     .ConfigureAwait(true);
 
-                return resetPassordToken;
+                return resetPasswordToken;
             }
             catch (FlurlHttpException ex)
             {
@@ -256,6 +238,46 @@ namespace Goblin.Identity.Share
             try
             {
                 var endpoint = GetRequest(model.LoggedInUserId).AppendPathSegment(GoblinIdentityEndpoints.ResetPassword);
+
+                await endpoint
+                    .PutJsonAsync(model, cancellationToken: cancellationToken)
+                    .ConfigureAwait(true);
+            }
+            catch (FlurlHttpException ex)
+            {
+                await FlurlHttpExceptionHelper.HandleErrorAsync(ex).ConfigureAwait(true);
+            }
+        }
+
+        public static async Task<GoblinIdentityEmailConfirmationModel> RequestConfirmEmailAsync(long id, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var endpoint = GetRequest(id).AppendPathSegment(GoblinIdentityEndpoints.RequestConfirmEmail.Replace("{id}", id.ToString()));
+
+                var emailConfirmationModel = await endpoint
+                    .PostJsonAsync(null, cancellationToken: cancellationToken)
+                    .ReceiveJson<GoblinIdentityEmailConfirmationModel>()
+                    .ConfigureAwait(true);
+
+                return emailConfirmationModel;
+            }
+            catch (FlurlHttpException ex)
+            {
+                await FlurlHttpExceptionHelper.HandleErrorAsync(ex).ConfigureAwait(true);
+
+                return null;
+            }
+        }
+
+        public static async Task ConfirmEmailAsync(long id, GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
+        {
+            ValidationHelper.Validate<GoblinIdentityConfirmEmailModelValidator, GoblinIdentityConfirmEmailModel>(model);
+
+            try
+            {
+                var endpoint = GetRequest(model.LoggedInUserId)
+                    .AppendPathSegment(GoblinIdentityEndpoints.ConfirmEmail.Replace("{id}", id.ToString()));
 
                 await endpoint
                     .PutJsonAsync(model, cancellationToken: cancellationToken)

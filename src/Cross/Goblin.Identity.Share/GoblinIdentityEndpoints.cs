@@ -30,11 +30,16 @@ namespace Goblin.Identity.Share
         ///     HTTP Method: POST
         /// </summary>
         public const string GetPagedUser = "/users/paged";
+        
+        /// <summary>
+        ///     HTTP Method: POST
+        /// </summary>
+        public const string RequestConfirmEmail = "/users/{id}/confirm-email";
 
         /// <summary>
         ///     HTTP Method: PUT
         /// </summary>
-        public const string ConfirmEmail = "/users/confirm-email";
+        public const string ConfirmEmail = "/users/{id}/confirm-email";
 
         /// <summary>
         ///     HTTP Method: PUT

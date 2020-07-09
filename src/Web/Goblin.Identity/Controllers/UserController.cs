@@ -58,23 +58,6 @@ namespace Goblin.Identity.Controllers
         }
         
         /// <summary>
-        ///     Confirm Email
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        [ApiDocGroup("User")]
-        [HttpGet]
-        [Route(GoblinIdentityEndpoints.ConfirmEmail)]
-        [SwaggerResponse(StatusCodes.Status204NoContent, "Email Confirmed")]
-        public async Task<IActionResult> ConfirmEmail([FromBody] GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
-        {
-            await _userService.ConfirmEmail(model, cancellationToken);
-
-            return NoContent();
-        }
-        
-        /// <summary>
         ///     Get Profile
         /// </summary>
         /// <param name="id"></param>
@@ -188,7 +171,7 @@ namespace Goblin.Identity.Controllers
         [HttpPost]
         [Route(GoblinIdentityEndpoints.RequestResetPassword)]
         [SwaggerResponse(StatusCodes.Status200OK, "Reset Password Token", typeof(GoblinIdentityResetPasswordTokenModel))]
-        public async Task<IActionResult> GetProfileByAccessToken([FromBody] GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> RequestResetPassword([FromBody] GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default)
         {
             var resetPasswordToken = await _userService.RequestResetPasswordAsync(model, cancellationToken);
 
@@ -205,11 +188,48 @@ namespace Goblin.Identity.Controllers
         [HttpPut]
         [Route(GoblinIdentityEndpoints.ResetPassword)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Update Password Successfuly")]
-        public async Task<IActionResult> GetProfileByAccessToken([FromBody] GoblinIdentityResetPasswordModel model, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> ResetPassword([FromBody] GoblinIdentityResetPasswordModel model, CancellationToken cancellationToken = default)
         {
             await _userService.ResetPasswordAsync(model, cancellationToken);
 
             return NoContent();
         }
+        
+        /// <summary>
+        ///     Request Confirm Email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpPost]
+        [Route(GoblinIdentityEndpoints.RequestConfirmEmail)]
+        [SwaggerResponse(StatusCodes.Status200OK, "Confirm Email Token", typeof(GoblinIdentityEmailConfirmationModel))]
+        public async Task<IActionResult> RequestConfirmEmail([FromRoute] long id, CancellationToken cancellationToken = default)
+        {
+            var emailConfirmationModel = await _userService.RequestConfirmEmailAsync(id, cancellationToken);
+
+            return Ok(emailConfirmationModel);
+        }
+
+
+        /// <summary>
+        ///     Confirm Email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [ApiDocGroup("Auth")]
+        [HttpGet]
+        [Route(GoblinIdentityEndpoints.ConfirmEmail)]
+        [SwaggerResponse(StatusCodes.Status204NoContent, "Email Confirmed")]
+        public async Task<IActionResult> ConfirmEmail([FromRoute] long id, [FromBody] GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
+        {
+            await _userService.ConfirmEmail(id, model, cancellationToken);
+
+            return NoContent();
+        }
+
     }
 }

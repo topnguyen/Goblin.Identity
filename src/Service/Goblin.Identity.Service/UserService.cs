@@ -269,10 +269,17 @@ namespace Goblin.Identity.Service
 
             if (userEntity == null)
             {
-                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound),
-                    GoblinIdentityErrorCode.UserNotFound);
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
             }
+            
+            var currentPasswordHashWithOldSalt = PasswordHelper.HashPassword(model.CurrentPassword, userEntity.PasswordLastUpdatedTime);
 
+            if (currentPasswordHashWithOldSalt != userEntity.PasswordHash)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.WrongPassword), GoblinIdentityErrorCode.WrongPassword);
+
+            }
+            
             var emailConfirmationModel = new GoblinIdentityEmailConfirmationModel
             {
                 Id = userEntity.Id
@@ -283,8 +290,7 @@ namespace Goblin.Identity.Service
             // Update Password
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
             {
-                var newPasswordHashWithOldSalt =
-                    PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
+                var newPasswordHashWithOldSalt = PasswordHelper.HashPassword(model.NewPassword, userEntity.PasswordLastUpdatedTime);
 
                 // If user have changed password, then update password and related information
                 if (newPasswordHashWithOldSalt != userEntity.PasswordHash)
@@ -356,11 +362,41 @@ namespace Goblin.Identity.Service
             await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
         }
 
-        public async Task ConfirmEmail(GoblinIdentityConfirmEmailModel model,
+        public async Task<GoblinIdentityEmailConfirmationModel> RequestConfirmEmailAsync(long id, CancellationToken cancellationToken = default)
+        {
+            var userEntity = await _userRepo.Get(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(true);
+
+            if (userEntity == null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.UserNotFound), GoblinIdentityErrorCode.UserNotFound);
+            }
+
+            if (userEntity.EmailConfirmedTime != null)
+            {
+                throw new GoblinException(nameof(GoblinIdentityErrorCode.EmailAlreadyConfirmed), GoblinIdentityErrorCode.EmailAlreadyConfirmed);
+            }
+
+            var resetConfirmEmailTokenModel = new GoblinIdentityEmailConfirmationModel
+            {
+                Id = id,
+                EmailConfirmToken = userEntity.EmailConfirmToken = StringHelper.Generate(6, false, false),
+                EmailConfirmTokenExpireTime = userEntity.EmailConfirmTokenExpireTime = GoblinDateTimeHelper.SystemTimeNow.Add(SystemSetting.Current.EmailConfirmTokenLifetime)
+            };
+
+            _userRepo.Update(userEntity,
+                x => x.EmailConfirmToken,
+                x => x.EmailConfirmTokenExpireTime
+            );
+
+            await GoblinUnitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(true);
+
+            return resetConfirmEmailTokenModel;
+        }
+
+        public async Task ConfirmEmail(long id, GoblinIdentityConfirmEmailModel model,
             CancellationToken cancellationToken = default)
         {
-            var userEntity = await _userRepo.Get(x => x.Id == model.Id)
-                .FirstOrDefaultAsync(cancellationToken).ConfigureAwait(true);
+            var userEntity = await _userRepo.Get(x => x.Id == id).FirstOrDefaultAsync(cancellationToken).ConfigureAwait(true);
 
             if (userEntity == null)
             {
@@ -408,13 +444,11 @@ namespace Goblin.Identity.Service
                     GoblinIdentityErrorCode.UserNotFound);
             }
 
-            var resetPasswordTokenModel = new GoblinIdentityResetPasswordTokenModel { };
-
-            resetPasswordTokenModel.SetPasswordToken =
-                userEntity.SetPasswordToken = StringHelper.Generate(6, false, false);
-
-            resetPasswordTokenModel.SetPasswordTokenExpireTime = userEntity.SetPasswordTokenExpireTime =
-                GoblinDateTimeHelper.SystemTimeNow.Add(SystemSetting.Current.SetPasswordTokenLifetime);
+            var resetPasswordTokenModel = new GoblinIdentityResetPasswordTokenModel
+            {
+                SetPasswordToken = userEntity.SetPasswordToken = StringHelper.Generate(6, false, false),
+                SetPasswordTokenExpireTime = userEntity.SetPasswordTokenExpireTime = GoblinDateTimeHelper.SystemTimeNow.Add(SystemSetting.Current.SetPasswordTokenLifetime)
+            };
 
             _userRepo.Update(userEntity,
                 x => x.SetPasswordToken,

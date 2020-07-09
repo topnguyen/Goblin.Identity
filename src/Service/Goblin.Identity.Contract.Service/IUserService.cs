@@ -19,7 +19,9 @@ namespace Goblin.Identity.Contract.Service
         
         Task DeleteAsync(long id, CancellationToken cancellationToken = default);
         
-        Task ConfirmEmail(GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default);
+        Task<GoblinIdentityEmailConfirmationModel> RequestConfirmEmailAsync(long id, CancellationToken cancellationToken = default);
+
+        Task ConfirmEmail(long id, GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default);
         
         Task<GoblinIdentityResetPasswordTokenModel> RequestResetPasswordAsync(GoblinIdentityRequestResetPasswordModel model, CancellationToken cancellationToken = default);
         

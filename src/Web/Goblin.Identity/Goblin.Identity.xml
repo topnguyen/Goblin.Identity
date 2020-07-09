@@ -50,14 +50,6 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.ConfirmEmail(Goblin.Identity.Share.Models.UserModels.GoblinIdentityConfirmEmailModel,System.Threading.CancellationToken)">
-            <summary>
-                Confirm Email
-            </summary>
-            <param name="model"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
         <member name="M:Goblin.Identity.Controllers.UserController.GetProfile(System.Int64,System.Threading.CancellationToken)">
             <summary>
                 Get Profile
@@ -108,7 +100,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.GetProfileByAccessToken(Goblin.Identity.Share.Models.UserModels.GoblinIdentityRequestResetPasswordModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.RequestResetPassword(Goblin.Identity.Share.Models.UserModels.GoblinIdentityRequestResetPasswordModel,System.Threading.CancellationToken)">
             <summary>
                 Request Reset Password
             </summary>
@@ -116,10 +108,27 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Goblin.Identity.Controllers.UserController.GetProfileByAccessToken(Goblin.Identity.Share.Models.UserModels.GoblinIdentityResetPasswordModel,System.Threading.CancellationToken)">
+        <member name="M:Goblin.Identity.Controllers.UserController.ResetPassword(Goblin.Identity.Share.Models.UserModels.GoblinIdentityResetPasswordModel,System.Threading.CancellationToken)">
             <summary>
                 Reset Password
             </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.RequestConfirmEmail(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+                Request Confirm Email
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Goblin.Identity.Controllers.UserController.ConfirmEmail(System.Int64,Goblin.Identity.Share.Models.UserModels.GoblinIdentityConfirmEmailModel,System.Threading.CancellationToken)">
+            <summary>
+                Confirm Email
+            </summary>
+            <param name="id"></param>
             <param name="model"></param>
             <param name="cancellationToken"></param>
             <returns></returns>

@@ -7,9 +7,6 @@ namespace Goblin.Identity.Share.Validators.UserValidators
     {
         public GoblinIdentityConfirmEmailModelValidator()
         {
-            RuleFor(x => x.Id)
-                .NotEmpty();
-            
             RuleFor(x => x.EmailConfirmToken)
                 .NotEmpty();
         }
