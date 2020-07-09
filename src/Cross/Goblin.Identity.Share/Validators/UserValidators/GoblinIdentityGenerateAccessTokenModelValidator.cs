@@ -1,11 +1,11 @@
 using FluentValidation;
 using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators.UserValidators
+namespace Goblin.Identity.Share.Validators.UserValidators
 {
-    public class GenerateAccessTokenModelValidator : AbstractValidator<GoblinIdentityGenerateAccessTokenModel>
+    public class GoblinIdentityGenerateAccessTokenModelValidator : AbstractValidator<GoblinIdentityGenerateAccessTokenModel>
     {
-        public GenerateAccessTokenModelValidator()
+        public GoblinIdentityGenerateAccessTokenModelValidator()
         {
             RuleFor(x => x.UserName)
                 .NotEmpty()

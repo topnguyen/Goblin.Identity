@@ -1,11 +1,11 @@
 using FluentValidation;
 using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators.UserValidators
+namespace Goblin.Identity.Share.Validators.UserValidators
 {
-    public class RequestResetPasswordModelValidator : AbstractValidator<GoblinIdentityRequestResetPasswordModel>
+    public class GoblinIdentityRequestResetPasswordModelValidator : AbstractValidator<GoblinIdentityRequestResetPasswordModel>
     {
-        public RequestResetPasswordModelValidator()
+        public GoblinIdentityRequestResetPasswordModelValidator()
         {
             RuleFor(x => x.Email)
                 .EmailAddress()

@@ -2,11 +2,11 @@ using System;
 using FluentValidation;
 using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators.UserValidators
+namespace Goblin.Identity.Share.Validators.UserValidators
 {
-    public class RegisterUserModelValidator : AbstractValidator<GoblinIdentityRegisterModel>
+    public class GoblinIdentityRegisterModelValidator : AbstractValidator<GoblinIdentityRegisterModel>
     {
-        public RegisterUserModelValidator()
+        public GoblinIdentityRegisterModelValidator()
         {
             RuleFor(x => x.AvatarUrl)
                 .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _) && uri.Length < 1000)

@@ -1,11 +1,11 @@
 using FluentValidation;
 using Goblin.Identity.Share.Models.UserModels;
 
-namespace Goblin.Identity.Core.Validators.UserValidators
+namespace Goblin.Identity.Share.Validators.UserValidators
 {
-    public class UpdateIdentityModelValidator : AbstractValidator<GoblinIdentityUpdateIdentityModel>
+    public class GoblinIdentityUpdateIdentityModelValidator : AbstractValidator<GoblinIdentityUpdateIdentityModel>
     {
-        public UpdateIdentityModelValidator()
+        public GoblinIdentityUpdateIdentityModelValidator()
         {
             RuleFor(x => x.CurrentPassword)
                 .NotEmpty()
