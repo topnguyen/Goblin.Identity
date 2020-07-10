@@ -221,7 +221,7 @@ namespace Goblin.Identity.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [ApiDocGroup("Auth")]
-        [HttpGet]
+        [HttpPut]
         [Route(GoblinIdentityEndpoints.ConfirmEmail)]
         [SwaggerResponse(StatusCodes.Status204NoContent, "Email Confirmed")]
         public async Task<IActionResult> ConfirmEmail([FromRoute] long id, [FromBody] GoblinIdentityConfirmEmailModel model, CancellationToken cancellationToken = default)
