@@ -309,11 +309,12 @@ namespace Goblin.Identity.Service
             // Update Email
             if (!string.IsNullOrWhiteSpace(model.NewEmail) && model.NewEmail != userEntity.Email)
             {
+                CheckUniqueEmail(model.NewEmail);
+                
                 userEntity.EmailConfirmToken = StringHelper.Generate(6, false, false);
                 changedProperties.Add(nameof(userEntity.EmailConfirmToken));
 
-                userEntity.EmailConfirmTokenExpireTime =
-                    GoblinDateTimeHelper.SystemTimeNow.Add(SystemSetting.Current.EmailConfirmTokenLifetime);
+                userEntity.EmailConfirmTokenExpireTime = GoblinDateTimeHelper.SystemTimeNow.Add(SystemSetting.Current.EmailConfirmTokenLifetime);
                 changedProperties.Add(nameof(userEntity.EmailConfirmTokenExpireTime));
 
 
@@ -327,6 +328,8 @@ namespace Goblin.Identity.Service
             // Update UserName
             if (!string.IsNullOrWhiteSpace(model.NewUserName))
             {
+                CheckUniqueUserName(model.NewUserName);
+
                 userEntity.UserName = model.NewUserName;
                 changedProperties.Add(nameof(userEntity.UserName));
             }
